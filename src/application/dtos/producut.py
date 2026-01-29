@@ -5,7 +5,7 @@ from datetime import datetime
 from utils.time import get_utc_now
 
 
-class ProductBase(BaseModel):
+class ProductBaseDTO(BaseModel):
     id: str
     name: str
     description: dict
@@ -15,11 +15,12 @@ class ProductBase(BaseModel):
 
     create_time: datetime = get_utc_now
 
-class ProductCreate(ProductBase):
+
+class ProductCreateDTO(ProductBaseDTO):
     pass
 
 
-class ProductUpdate(BaseModel):
+class ProductUpdateDTO(BaseModel):
     name: Optional[str] = None
     description: Optional[dict] = {}
     price: Optional[int] = 0
