@@ -13,7 +13,7 @@ class ProductBaseDTO(BaseModel):
     category: list
     reviews_id: int
 
-    create_time: datetime = get_utc_now
+    create_time: Optional[datetime] = None
 
 
 class ProductCreateDTO(ProductBaseDTO):
@@ -27,5 +27,5 @@ class ProductUpdateDTO(BaseModel):
     category:Optional[list] = []
     reviews_id: Optional[int] = 0
 
-    create_time: datetime = get_utc_now
+    
 
