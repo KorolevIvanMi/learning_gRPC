@@ -1,10 +1,10 @@
 from pydantic import BaseModel, ConfigDict
-from typing import Optional
-
+from typing import Optional, Dict,List
+from bson import ObjectId 
 
 class ReviewDictDTO(BaseModel):
-    id: int 
-    reviws: dict = []
+    id: ObjectId
+    reviews: Dict[ReviewDTO] = []
 
 class ReviewDTO(BaseModel):
     id: int

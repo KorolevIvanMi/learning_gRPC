@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict
+from bson import ObjectId 
 
 from application.dtos import *
 
@@ -36,7 +37,8 @@ class IAMongoDBProductRepositiry(ABC):
     @abstractmethod
     async def get_all_products(
         self,
-        limit:int = 100
+        limit:int, 
+        context
     )->List[Dict]:
         pass
 
@@ -46,7 +48,7 @@ class IAMongoDBProductRepositiry(ABC):
         self,
         product_name:str,
         context
-    )->ProductBaseDTO|None:
+    )->Dict|None:
         pass
 
 
@@ -55,7 +57,7 @@ class IAMongoDBProductRepositiry(ABC):
         self, 
         product_id:str,
         context
-    )->ProductBaseDTO|None:
+    )->Dict|None:
         pass
 
 
@@ -64,17 +66,33 @@ class IAMongoDBProductRepositiry(ABC):
             self, 
             product_category: str,
             context
-    )-> List[ProductBaseDTO]|None:
+    )-> List[Dict]|None:
+        pass
+
+
+    # @abstractmethod
+    # async def get_product_by_price(
+    #     self,
+    #     product_price: float,
+    #     context
+    # )->List[Dict]|None:
+    #     pass
+
+
+    @abstractmethod
+    async def add_review(
+        self, 
+        review_id: ObjectId,
+        review: ReviewDTO,
+        context
+    ):
         pass
 
 
     @abstractmethod
-    async def get_product_by_price(
+    async def get_review(
         self,
-        product_price: float,
+        review_id: int,
         context
-    )->List[ProductBaseDTO]|None:
+    )->ReviewDictDTO:
         pass
-
-
-    
