@@ -6,6 +6,7 @@ class ReviewDictDTO(BaseModel):
     id: ObjectId
     reviews: Dict[ReviewDTO] = []
 
+
 class ReviewDTO(BaseModel):
     id: int
     user_id: int
