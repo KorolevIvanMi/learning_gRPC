@@ -1,0 +1,90 @@
+syntax = "proto3";
+import "google/protobuf/struct.proto";
+package catalog;
+
+message CreateProductRequest{
+    string id = 1;
+    string name = 2;
+    map<string, string> description = 3;
+    int32 price = 4;
+    repeated string category = 5;
+}
+
+message UpdateProductRequest{
+    string product_id = 1;
+    string name = 2;
+    map<string, string> description = 3;
+    int32 price = 4;
+    repeated string category = 5;
+    string reviews_id = 6;
+}
+
+message DeleteProductRequest{
+    string product_id = 1;
+}
+
+message GetAllProductsRequest{
+    int32 limit = 1;
+}
+
+message GetAllProductsResponse{
+    google.protobuf.Struct data = 1;
+}
+
+message GetProductByNameRequest{
+    string product_name = 1;
+}
+
+message GetProductByNameResponse{
+    google.protobuf.Struct data = 1;
+}
+
+message GetProductByIDRequest{
+    string product_id = 1;
+}
+
+message GetProductByIDResponse{
+    google.protobuf.Struct data = 1;
+}
+
+message GetProductByCategoryRequest{
+    string product_category = 1;
+}
+
+message GetProductByCategoryResponse{
+    google.protobuf.Struct data = 1;
+}
+
+message AddReviewRequest{
+    string  review_id = 1;
+    int32 id = 2;
+    int32 user_id = 3;
+    float rating = 4;
+    string text = 5;
+}
+
+message GetReviewsRequest{
+    string reviews_id = 1;
+}
+
+message GetReviewsResponse{
+    google.protobuf.Struct data = 1;
+}
+
+message Okey {
+    bool success = 1;
+}
+
+message Empty{}
+
+service Catolog{
+    rpc CreateProduct(CreateProductRequest) returns (Okey);
+    rpc UpdateProduct(UpdateProductRequest) returns (Okey);
+    rpc DeleteProduct(DeleteProductRequest) returns (Okey);
+    rpc GetAllProducts(GetAllProductsRequest) returns (GetAllProductsResponse);
+    rpc GetProductByName(GetProductByNameRequest) returns (GetProductByNameResponse);
+    rpc GetProductByCategory(GetProductByCategoryRequest) returns (GetProductByCategoryResponse);
+    rpc GetProductByID(GetProductByIDRequest) returns (GetProductByIDResponse);
+    rpc AddReview(AddReviewRequest) returns (Okey);
+    rpc GetReviews(GetReviewsRequest) returns (GetReviewsResponse);
+}

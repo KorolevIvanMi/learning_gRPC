@@ -90,9 +90,9 @@ class IAMongoDBProductRepositiry(ABC):
 
 
     @abstractmethod
-    async def get_review(
+    async def get_reviews(
         self,
-        review_id: int,
+        reviews_id: ObjectId,
         context
     )->ReviewDictDTO:
         pass

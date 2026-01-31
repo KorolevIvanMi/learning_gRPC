@@ -75,10 +75,10 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
             context.abort(grpc.StatusCode.INTERNAL, str(e))
 
 
-    async def get_review(self, review_id: ObjectId , context)->ReviewDictDTO:
+    async def get_reviews(self, reviews_id: ObjectId , context)->ReviewDictDTO:
         try:
             async with db_helper.transaction() as session:
-                result = await db_helper.database.reviews.find_one({"id":review_id}, session = session)
+                result = await db_helper.database.reviews.find_one({"id":reviews_id}, session = session)
                 
                 return  await ReviewDictDTO(**result)
         except Exception as e:
