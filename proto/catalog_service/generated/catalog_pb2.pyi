@@ -66,8 +66,8 @@ class GetAllProductsRequest(_message.Message):
 class GetAllProductsResponse(_message.Message):
     __slots__ = ("data",)
     DATA_FIELD_NUMBER: _ClassVar[int]
-    data: _struct_pb2.Struct
-    def __init__(self, data: _Optional[_Union[_struct_pb2.Struct, _Mapping]] = ...) -> None: ...
+    data: _containers.RepeatedCompositeFieldContainer[_struct_pb2.Struct]
+    def __init__(self, data: _Optional[_Iterable[_Union[_struct_pb2.Struct, _Mapping]]] = ...) -> None: ...
 
 class GetProductByNameRequest(_message.Message):
     __slots__ = ("product_name",)
@@ -102,8 +102,8 @@ class GetProductByCategoryRequest(_message.Message):
 class GetProductByCategoryResponse(_message.Message):
     __slots__ = ("data",)
     DATA_FIELD_NUMBER: _ClassVar[int]
-    data: _struct_pb2.Struct
-    def __init__(self, data: _Optional[_Union[_struct_pb2.Struct, _Mapping]] = ...) -> None: ...
+    data: _containers.RepeatedCompositeFieldContainer[_struct_pb2.Struct]
+    def __init__(self, data: _Optional[_Iterable[_Union[_struct_pb2.Struct, _Mapping]]] = ...) -> None: ...
 
 class AddReviewRequest(_message.Message):
     __slots__ = ("review_id", "id", "user_id", "rating", "text")
@@ -118,18 +118,6 @@ class AddReviewRequest(_message.Message):
     rating: float
     text: str
     def __init__(self, review_id: _Optional[str] = ..., id: _Optional[int] = ..., user_id: _Optional[int] = ..., rating: _Optional[float] = ..., text: _Optional[str] = ...) -> None: ...
-
-class GetReviewsRequest(_message.Message):
-    __slots__ = ("reviews_id",)
-    REVIEWS_ID_FIELD_NUMBER: _ClassVar[int]
-    reviews_id: str
-    def __init__(self, reviews_id: _Optional[str] = ...) -> None: ...
-
-class GetReviewsResponse(_message.Message):
-    __slots__ = ("data",)
-    DATA_FIELD_NUMBER: _ClassVar[int]
-    data: _struct_pb2.Struct
-    def __init__(self, data: _Optional[_Union[_struct_pb2.Struct, _Mapping]] = ...) -> None: ...
 
 class Okey(_message.Message):
     __slots__ = ("success",)

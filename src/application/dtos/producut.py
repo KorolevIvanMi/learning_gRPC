@@ -21,11 +21,12 @@ class ProductCreateDTO(ProductBaseDTO):
 
 
 class ProductUpdateDTO(BaseModel):
+    id: str
     name: Optional[str] = None
     description: Optional[Dict] = {}
     price: Optional[int] = 0
     category:Optional[List] = []
-    review_id: Optional[int] = 0
+    reviews_id: Optional[ObjectId] = 0
 
 class ProductInDbDTO(ProductBaseDTO):
     review_id: ObjectId

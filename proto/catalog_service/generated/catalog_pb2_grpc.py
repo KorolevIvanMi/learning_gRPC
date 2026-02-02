@@ -74,11 +74,6 @@ class CatologStub(object):
                 request_serializer=catalog__pb2.AddReviewRequest.SerializeToString,
                 response_deserializer=catalog__pb2.Okey.FromString,
                 _registered_method=True)
-        self.GetReviews = channel.unary_unary(
-                '/catalog.Catolog/GetReviews',
-                request_serializer=catalog__pb2.GetReviewsRequest.SerializeToString,
-                response_deserializer=catalog__pb2.GetReviewsResponse.FromString,
-                _registered_method=True)
 
 
 class CatologServicer(object):
@@ -132,12 +127,6 @@ class CatologServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetReviews(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
 
 def add_CatologServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -180,11 +169,6 @@ def add_CatologServicer_to_server(servicer, server):
                     servicer.AddReview,
                     request_deserializer=catalog__pb2.AddReviewRequest.FromString,
                     response_serializer=catalog__pb2.Okey.SerializeToString,
-            ),
-            'GetReviews': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetReviews,
-                    request_deserializer=catalog__pb2.GetReviewsRequest.FromString,
-                    response_serializer=catalog__pb2.GetReviewsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -403,33 +387,6 @@ class Catolog(object):
             '/catalog.Catolog/AddReview',
             catalog__pb2.AddReviewRequest.SerializeToString,
             catalog__pb2.Okey.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def GetReviews(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/catalog.Catolog/GetReviews',
-            catalog__pb2.GetReviewsRequest.SerializeToString,
-            catalog__pb2.GetReviewsResponse.FromString,
             options,
             channel_credentials,
             insecure,

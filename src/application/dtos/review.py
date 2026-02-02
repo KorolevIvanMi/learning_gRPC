@@ -11,4 +11,4 @@ class ReviewDTO(BaseModel):
     id: int
     user_id: int
     rating: float
-    text = str
+    text : str

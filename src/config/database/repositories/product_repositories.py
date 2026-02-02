@@ -15,12 +15,8 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
 
                 review_id = ObjectId()
                 
-                
                 product_data = product.model_dump() 
                 product_data['review_id'] = review_id
-                product_data['create_time'] = get_utc_now()
-                
-                
                 
                 await db_helper.database.products.insert_one(
                     product_data,
@@ -36,7 +32,7 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
             await context.abort(grpc.StatusCode.INTERNAL, str(e))
 
 
-    async def update_product(self,product_id: str, product:ProductUpdateDTO, context)->ProductBaseDTO:
+    async def update_product(self,product_id: str, product:ProductUpdateDTO, context)->None:
         try: 
             update_data = product.model_dump(exclude_none=True)
             update_data["updated_time"] = get_utc_now()
@@ -49,11 +45,11 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
                     session=session
                 )
             
-                updated = await db_helper.database.products.find_one(
-                    {"id": product_id}, session = session
-                )
+                # updated = await db_helper.database.products.find_one(
+                #     {"id": product_id}, session = session
+                # )
 
-                return ProductBaseDTO(**updated)
+                # return ProductBaseDTO(**updated)
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))
 
@@ -122,7 +118,6 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
         try:
             async with db_helper.transaction() as session:
                 cursor = await db_helper.database.products.find({"category" : product_category}, session= session)
-                
                 products = await cursor.to_list(length=None)
                 return products
         except Exception as e:

@@ -28,7 +28,7 @@ message GetAllProductsRequest{
 }
 
 message GetAllProductsResponse{
-    google.protobuf.Struct data = 1;
+    repeated google.protobuf.Struct data = 1;
 }
 
 message GetProductByNameRequest{
@@ -52,7 +52,7 @@ message GetProductByCategoryRequest{
 }
 
 message GetProductByCategoryResponse{
-    google.protobuf.Struct data = 1;
+    repeated google.protobuf.Struct data = 1;
 }
 
 message AddReviewRequest{
@@ -63,13 +63,6 @@ message AddReviewRequest{
     string text = 5;
 }
 
-message GetReviewsRequest{
-    string reviews_id = 1;
-}
-
-message GetReviewsResponse{
-    google.protobuf.Struct data = 1;
-}
 
 message Okey {
     bool success = 1;
@@ -86,5 +79,4 @@ service Catolog{
     rpc GetProductByCategory(GetProductByCategoryRequest) returns (GetProductByCategoryResponse);
     rpc GetProductByID(GetProductByIDRequest) returns (GetProductByIDResponse);
     rpc AddReview(AddReviewRequest) returns (Okey);
-    rpc GetReviews(GetReviewsRequest) returns (GetReviewsResponse);
 }
