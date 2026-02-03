@@ -1,15 +1,5 @@
-// Простая инициализация replica set
-try {
-    rs.status();
-} catch (e) {
-    if (e.codeName === 'NoReplicationEnabled') {
-        rs.initiate({
-            _id: "rs0",
-            members: [{ _id: 0, host: "localhost:27017" }]
-        });
-        print("Replica set initiated");
-    }
-}
+// Авторизуемся как root
+db.getSiblingDB('admin').auth('admin', 'admin');
 
 // Создаем пользователя
 db = db.getSiblingDB('catalog_db');
@@ -21,6 +11,8 @@ try {
             { role: "readWrite", db: "catalog_db" }
         ]
     });
+    print("User created");
 } catch (e) {
     // Пользователь уже существует
+    print("User already exists");
 }

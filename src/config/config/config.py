@@ -22,7 +22,7 @@ class Settings(BaseSettings):
 
         self.mongodb_url = (
         f"mongodb://{self.mongo_user}:{self.mongo_password}"
-        f"@localhost:27017/{self.mongo_base_name}"
+        f"@mongodb:27017/{self.mongo_base_name}"
         f"?authSource={self.mongo_base_name}" )
 
 

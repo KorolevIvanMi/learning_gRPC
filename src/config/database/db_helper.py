@@ -33,21 +33,6 @@ class MongoDB:
             
             print("MongoDB disconnected")
 
-
-    @classmethod
-    @asynccontextmanager
-    async def transaction(cls) :
-        if not cls:
-            raise RuntimeError("MongoDB is not connected")
-        
-
-        async with await cls.client.start_session() as session:
-            try:
-                async with session.start_transaction():
-                    yield session
-            except Exception as e:
-                print(f"Transaction failed: {e}")
-                raise 
             
 db_helper = MongoDB()
 
