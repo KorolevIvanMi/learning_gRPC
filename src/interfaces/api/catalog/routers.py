@@ -12,16 +12,24 @@ from google.protobuf.json_format import MessageToDict
 router = APIRouter(tags=["Catalog"])
 
 @router.get("/")
-async def get_products(limint:int):
+async def get_products(limit: int):
     try:
         stub = grpc_client.get_stub()
         if not stub:
             await grpc_client.connect()
             stub = grpc_client.get_stub()
-        request = catalog_pb2.GetAllProductsRequest(limit=limint)
-        response = await stub.GetAllProducts(request)
-        response = from_listStruct_to_listDict(response)
-        return response
+        
+        request = catalog_pb2.GetAllProductsRequest(limit=limit)
+        proto_response = await stub.GetAllProducts(request)
+        
+        response_dict = MessageToDict(
+            proto_response,
+            preserving_proto_field_name=True,
+            use_integers_for_enums=True
+        )
+        
+        return response_dict
+        
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

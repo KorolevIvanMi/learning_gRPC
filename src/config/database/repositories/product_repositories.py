@@ -59,8 +59,18 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
 
     async def get_all_products(self, limit, context) -> List[Dict] | None:
         try:
-            cursor = db_helper.database.products.find().limit(limit)
+            cursor = db_helper.database.products.find(
+            {}, 
+            {"_id": 0}  # оставляем review_id
+            ).limit(limit)
+        
             result = await cursor.to_list(length=limit)
+            
+            # Конвертируем ObjectId в строки
+            for product in result:
+                if "review_id" in product and product["review_id"]:
+                    product["review_id"] = str(product["review_id"])
+            
             return result
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))

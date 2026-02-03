@@ -45,5 +45,10 @@ def convert_from_Dict_to_Struct(dict:Dict)->Struct:
 
 
 
-def from_listStruct_to_listDict(list:List[Struct])->List[Dict]:
-    return [dict(struct) for struct in list]
+def from_listStruct_to_listDict(response: catalog_pb2.GetAllProductsResponse) -> List[Dict]:
+    """Convert GetAllProductsResponse to list of dicts"""
+    list_of_Dict = []
+    for struct in response.data:  # ← response.data, а не сам response
+        new_dict = dict(struct)  # Struct в protobuf 6.x ведет себя как dict
+        list_of_Dict.append(new_dict)
+    return list_of_Dict
