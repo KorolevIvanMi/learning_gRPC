@@ -35,7 +35,6 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
     async def update_product(self,product_id: str, product:ProductUpdateDTO, context)->None:
         try: 
             update_data = product.model_dump(exclude_none=True)
-            update_data["updated_time"] = get_utc_now()
 
             async with db_helper.transaction() as session:
 

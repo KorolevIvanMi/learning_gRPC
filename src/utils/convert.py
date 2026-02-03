@@ -4,7 +4,7 @@ from utils.time import get_utc_now
 
 from bson import ObjectId
 from google.protobuf.struct_pb2 import Struct
-from typing import Dict
+from typing import Dict, List
 from google.protobuf.json_format import MessageToDict, ParseDict
 
 def convert_create_product(request)->ProductCreateDTO:
@@ -42,3 +42,11 @@ def convert_from_Dict_to_Struct(dict:Dict)->Struct:
     ParseDict(dict, data_struct)
 
     return data_struct
+
+
+def from_listStruct_to_listDict(list:List[Struct])->List[Dict]:
+    list_of_Dict = []
+    for struct in list:
+        new_dict = MessageToDict(struct)
+        list_of_Dict.append(new_dict)
+    return list_of_Dict

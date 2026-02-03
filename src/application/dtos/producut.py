@@ -13,7 +13,6 @@ class ProductBaseDTO(BaseModel):
     price: int
     category: List[str]
 
-    create_time: Optional[datetime] = None
 
 
 class ProductCreateDTO(ProductBaseDTO):
