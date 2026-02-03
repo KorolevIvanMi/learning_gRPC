@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from google.protobuf.json_format import ParseDict
 
 from src.core.gRPC.client.grpc_client import grpc_client
 from proto import catalog_pb2
@@ -61,7 +62,9 @@ async def create_product(product_in:ProductCreateDTO):
         if not stub:
             await grpc_client.connect()
             stub = grpc_client.get_stub()
-        request = catalog_pb2.CreateProductRequest(id=product_in.id, name=product_in.name, description = product_in.description, price= product_in.price, category=product_in.category)
+        product_dict = product_in.model_dump()
+
+        request = ParseDict(product_dict, catalog_pb2.CreateProductRequest())
         response = await stub.CreateProduct(request)
         return response
     except Exception as e:

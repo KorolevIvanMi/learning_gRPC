@@ -10,7 +10,7 @@ class GRPCClient:
 
     async def connect(self):
         self.channel = grpc.aio.insecure_channel(f"localhost:{50051}")
-        self.stub = catalog_pb2_grpc.CatologStub(self.channel)
+        self.stub = catalog_pb2_grpc.CatalogStub(self.channel)
         return self
 
 

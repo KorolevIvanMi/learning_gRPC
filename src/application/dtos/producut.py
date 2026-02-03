@@ -1,4 +1,4 @@
-from pydantic import BaseModel,  ConfigDict
+from pydantic import BaseModel,  ConfigDict, Field
 from typing import Optional
 from datetime import datetime
 from bson import ObjectId 
@@ -10,7 +10,10 @@ class ProductBaseDTO(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
     id: str
     name: str
-    description: Dict
+    description: Dict[str, str] = Field(
+        default_factory=dict,
+        description="Плоский словарь string->string. Не использовать вложенные объекты!"
+    )
     price: int
     category: List[str]
 

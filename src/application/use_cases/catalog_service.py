@@ -11,7 +11,7 @@ from google.protobuf.struct_pb2 import Struct
 from typing import Dict
 
 
-class CatalgoServiceImp():
+class CatalogServiceImp():
     def __init__(self):
         self.repo = MongoDBProductRepositiry()
 

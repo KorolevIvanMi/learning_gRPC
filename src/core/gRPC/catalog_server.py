@@ -1,36 +1,36 @@
 from proto import catalog_pb2_grpc
 
-from src.application import CatalgoServiceImp
+from src.application import CatalogServiceImp
 
 
-class CatalogServicer(catalog_pb2_grpc.CatologServicer):
+class CatalogServicer(catalog_pb2_grpc.CatalogServicer):
     async def CreateProduct(self, request, context):
-        return await CatalgoServiceImp.CreateProduct(request, context)
+        return await CatalogServiceImp().CreateProduct(request, context)
 
 
     async def UpdateProduct(self, request, context):
-        return await CatalgoServiceImp.UpdateProduct(request, context)
+        return await CatalogServiceImp().UpdateProduct(request, context)
 
 
     async def DeleteProduct(self, request, context):
-        return await CatalgoServiceImp.DeleteProduct(request, context)
+        return await CatalogServiceImp().DeleteProduct(request, context)
 
 
     async def GetAllProducts(self, request, context):
-        return await CatalgoServiceImp.GetAllProducts(request, context)
+        return await CatalogServiceImp().GetAllProducts(request, context)
 
 
     async def GetProductByName(self, request, context):
-        return await CatalgoServiceImp.GetProductByName(request, context)
+        return await CatalogServiceImp().GetProductByName(request, context)
 
 
     async def GetProductByID(self, request, context):
-        return await CatalgoServiceImp.GetProductByID(request, context)
+        return await CatalogServiceImp().GetProductByID(request, context)
 
 
     async def GetProductByCategory(self, request, context):
-        return await CatalgoServiceImp.GetProductByCategory(request, context)
+        return await CatalogServiceImp().GetProductByCategory(request, context)
 
 
     async def AddReview(self, request, context):
-        return await CatalgoServiceImp.AddReview(request, context)
+        return await CatalogServiceImp().AddReview(request, context)

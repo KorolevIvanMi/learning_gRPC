@@ -25,7 +25,7 @@ if _version_not_supported:
     )
 
 
-class CatologStub(object):
+class CatalogStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -35,48 +35,48 @@ class CatologStub(object):
             channel: A grpc.Channel.
         """
         self.CreateProduct = channel.unary_unary(
-                '/catalog.Catolog/CreateProduct',
+                '/catalog.Catalog/CreateProduct',
                 request_serializer=catalog__pb2.CreateProductRequest.SerializeToString,
                 response_deserializer=catalog__pb2.Okey.FromString,
                 _registered_method=True)
         self.UpdateProduct = channel.unary_unary(
-                '/catalog.Catolog/UpdateProduct',
+                '/catalog.Catalog/UpdateProduct',
                 request_serializer=catalog__pb2.UpdateProductRequest.SerializeToString,
                 response_deserializer=catalog__pb2.Okey.FromString,
                 _registered_method=True)
         self.DeleteProduct = channel.unary_unary(
-                '/catalog.Catolog/DeleteProduct',
+                '/catalog.Catalog/DeleteProduct',
                 request_serializer=catalog__pb2.DeleteProductRequest.SerializeToString,
                 response_deserializer=catalog__pb2.Okey.FromString,
                 _registered_method=True)
         self.GetAllProducts = channel.unary_unary(
-                '/catalog.Catolog/GetAllProducts',
+                '/catalog.Catalog/GetAllProducts',
                 request_serializer=catalog__pb2.GetAllProductsRequest.SerializeToString,
                 response_deserializer=catalog__pb2.GetAllProductsResponse.FromString,
                 _registered_method=True)
         self.GetProductByName = channel.unary_unary(
-                '/catalog.Catolog/GetProductByName',
+                '/catalog.Catalog/GetProductByName',
                 request_serializer=catalog__pb2.GetProductByNameRequest.SerializeToString,
                 response_deserializer=catalog__pb2.GetProductByNameResponse.FromString,
                 _registered_method=True)
         self.GetProductByCategory = channel.unary_unary(
-                '/catalog.Catolog/GetProductByCategory',
+                '/catalog.Catalog/GetProductByCategory',
                 request_serializer=catalog__pb2.GetProductByCategoryRequest.SerializeToString,
                 response_deserializer=catalog__pb2.GetProductByCategoryResponse.FromString,
                 _registered_method=True)
         self.GetProductByID = channel.unary_unary(
-                '/catalog.Catolog/GetProductByID',
+                '/catalog.Catalog/GetProductByID',
                 request_serializer=catalog__pb2.GetProductByIDRequest.SerializeToString,
                 response_deserializer=catalog__pb2.GetProductByIDResponse.FromString,
                 _registered_method=True)
         self.AddReview = channel.unary_unary(
-                '/catalog.Catolog/AddReview',
+                '/catalog.Catalog/AddReview',
                 request_serializer=catalog__pb2.AddReviewRequest.SerializeToString,
                 response_deserializer=catalog__pb2.Okey.FromString,
                 _registered_method=True)
 
 
-class CatologServicer(object):
+class CatalogServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def CreateProduct(self, request, context):
@@ -128,7 +128,7 @@ class CatologServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_CatologServicer_to_server(servicer, server):
+def add_CatalogServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'CreateProduct': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateProduct,
@@ -172,13 +172,13 @@ def add_CatologServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'catalog.Catolog', rpc_method_handlers)
+            'catalog.Catalog', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('catalog.Catolog', rpc_method_handlers)
+    server.add_registered_method_handlers('catalog.Catalog', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class Catolog(object):
+class Catalog(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -195,7 +195,7 @@ class Catolog(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/catalog.Catolog/CreateProduct',
+            '/catalog.Catalog/CreateProduct',
             catalog__pb2.CreateProductRequest.SerializeToString,
             catalog__pb2.Okey.FromString,
             options,
@@ -222,7 +222,7 @@ class Catolog(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/catalog.Catolog/UpdateProduct',
+            '/catalog.Catalog/UpdateProduct',
             catalog__pb2.UpdateProductRequest.SerializeToString,
             catalog__pb2.Okey.FromString,
             options,
@@ -249,7 +249,7 @@ class Catolog(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/catalog.Catolog/DeleteProduct',
+            '/catalog.Catalog/DeleteProduct',
             catalog__pb2.DeleteProductRequest.SerializeToString,
             catalog__pb2.Okey.FromString,
             options,
@@ -276,7 +276,7 @@ class Catolog(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/catalog.Catolog/GetAllProducts',
+            '/catalog.Catalog/GetAllProducts',
             catalog__pb2.GetAllProductsRequest.SerializeToString,
             catalog__pb2.GetAllProductsResponse.FromString,
             options,
@@ -303,7 +303,7 @@ class Catolog(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/catalog.Catolog/GetProductByName',
+            '/catalog.Catalog/GetProductByName',
             catalog__pb2.GetProductByNameRequest.SerializeToString,
             catalog__pb2.GetProductByNameResponse.FromString,
             options,
@@ -330,7 +330,7 @@ class Catolog(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/catalog.Catolog/GetProductByCategory',
+            '/catalog.Catalog/GetProductByCategory',
             catalog__pb2.GetProductByCategoryRequest.SerializeToString,
             catalog__pb2.GetProductByCategoryResponse.FromString,
             options,
@@ -357,7 +357,7 @@ class Catolog(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/catalog.Catolog/GetProductByID',
+            '/catalog.Catalog/GetProductByID',
             catalog__pb2.GetProductByIDRequest.SerializeToString,
             catalog__pb2.GetProductByIDResponse.FromString,
             options,
@@ -384,7 +384,7 @@ class Catolog(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/catalog.Catolog/AddReview',
+            '/catalog.Catalog/AddReview',
             catalog__pb2.AddReviewRequest.SerializeToString,
             catalog__pb2.Okey.FromString,
             options,
