@@ -14,16 +14,16 @@ class Settings(BaseSettings):
     mongo_password:str = os.getenv("MONGODB_USER_PASSWPRD")
     mongo_base_name: str = os.getenv("MONGODB_DATABASE_NAME")
 
-    mongodb_url:str = "mongodb://localhost:27017/catalog_db"
+    mongodb_url:str = ""
 
 
-    # def __init__(self, **kwargs):
-    #     super().__init__(**kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
-    #     self.mongodb_url = (
-    #     f"mongodb://{self.mongo_user}:{self.mongo_password}"
-    #     f"@localhost:27017/{self.mongo_base_name}"
-    #     f"?authSource={self.mongo_base_name}" )
+        self.mongodb_url = (
+        f"mongodb://{self.mongo_user}:{self.mongo_password}"
+        f"@localhost:27017/{self.mongo_base_name}"
+        f"?authSource={self.mongo_base_name}" )
 
 
 settings = Settings()

@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: catalog-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - mongodb_data:/data/db
+      - ./init_data_base.js:/docker-entrypoint-initdb.d/init.js:ro
+    ports:
+      - "27017:27017"
+    command: mongod --replSet rs0 --bind_ip_all --auth
+    networks:
+      - app-network
+
+  catalog-app:
+    build: .
+    container_name: catalog-app
+    restart: always
+    depends_on:
+      mongodb:
+        condition: service_started
+    environment:
+      # MongoDB connection
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_USER: admin_user
+      MONGO_PASSWORD: kWaf3983gd18fnr
+      MONGO_DATABASE: catalog_db
+      MONGO_REPLICA_SET: rs0
+      
+      # App settings
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8000
+      GRPC_PORT: 50051
+      API_V1_PREFIX: /api/v1
+      DEBUG: "true"
+      
+    ports:
+      - "8000:8000"    # FastAPI HTTP
+      - "50051:50051"  # gRPC
+    volumes:
+      - ./src:/app/src              # Для разработки
+      - ./proto:/app/proto          # Protobuf файлы
+    networks:
+      - app-network
+    command: >
+      sh -c "
+        echo '⏳ Ожидаем запуск MongoDB...' &&
+        sleep 5 &&
+        echo '🚀 Запускаем приложение...' &&
+        python main.py
+      "
+
+volumes:
+  mongodb_data:
+
+networks:
+  app-network:
+    driver: bridge
