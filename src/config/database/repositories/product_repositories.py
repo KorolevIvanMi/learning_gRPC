@@ -20,7 +20,8 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
             await db_helper.database.reviews.insert_one({
                 "_id": review_id,
                 "collection_id": review_id,
-                "reviews": []
+                "reviews": [], 
+                
             })
             await db_helper.database.products.insert_one(product_data)
 
@@ -99,8 +100,12 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
 
     async def get_product_by_category(self, product_category: str, context):
         try:
-            cursor = db_helper.database.products.find({"category": product_category})
+            cursor = db_helper.database.products.find({"category": product_category}, {"_id": 0} )
+
             products = await cursor.to_list(length=None)
+            for product in products:
+                if "review_id" in product and product["review_id"]:
+                    product["review_id"] = str(product["review_id"])
             return products
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))

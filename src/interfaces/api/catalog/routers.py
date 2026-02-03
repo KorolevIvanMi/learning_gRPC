@@ -69,6 +69,21 @@ async def get_product_by_id(product_id:str):
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
+
+@router.get("/category/{product_category}")
+async def get_product_by_category(product_category:str):
+    try:
+        stub = grpc_client.get_stub()
+        if not stub:
+            await grpc_client.connect()
+            stub = grpc_client.get_stub()
+        request = catalog_pb2.GetProductByCategoryRequest(product_category=product_category)
+        proto_response = await stub.GetProductByCategory(request)
+        response = MessageToDict(proto_response, preserving_proto_field_name=True )
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
 @router.post("/",  status_code= status.HTTP_201_CREATED,)
 async def create_product(product_in:ProductCreateDTO):
     try:
@@ -86,3 +101,5 @@ async def create_product(product_in:ProductCreateDTO):
         return response_dict 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+

@@ -22,7 +22,7 @@ async def lifespan(app: FastAPI):
     yield
     if hasattr(app.state, 'grpc_server'):
         await app.state.grpc_server.stop()
-        print("✅ gRPC сервер остановлен")
+        print("gRPC сервер остановлен")
     
     # Отменяем задачу
     if hasattr(app.state, 'grpc_task'):
