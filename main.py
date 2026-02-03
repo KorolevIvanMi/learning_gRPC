@@ -46,5 +46,7 @@ def root():
 if __name__ == '__main__':
     uvicorn.run(
         "main:app",
+        host="0.0.0.0",  # ← ДОЛЖНО БЫТЬ 0.0.0.0, а не 127.0.0.1
+        port=8000, 
         reload=True
     )

@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     app_prefix:str = "/grpc_dastapi"
 
     mongo_user:str = os.getenv("MONGODB_USER_LOGIN")
-    mongo_password:str = os.getenv("MONGODB_USER_PASSWPRD")
+    mongo_password:str = os.getenv("MONGODB_USER_PASSWORD")
     mongo_base_name: str = os.getenv("MONGODB_DATABASE_NAME")
 
     mongodb_url:str = ""

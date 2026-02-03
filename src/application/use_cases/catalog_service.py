@@ -21,7 +21,7 @@ class CatalogServiceImp():
         
         await self.repo.create_product(product, context)
 
-        return catalog_pb2.Okey
+        return catalog_pb2.Okey(success=True)
 
 
     async def UpdateProduct(self, request, context) -> catalog_pb2.Okey:
@@ -29,13 +29,13 @@ class CatalogServiceImp():
 
         await self.repo.update_product(request.product_id, product, context)
 
-        return catalog_pb2.Okey
+        return catalog_pb2.Okey(success=True)
 
 
     async def DeleteProduct(self, request, context)-> catalog_pb2.Okey:
         await self.repo.delete_product(request.product_id, context)
 
-        return catalog_pb2.Okey
+        return catalog_pb2.Okey(success=True)
 
 
     async def GetAllProducts(self, request, context) -> catalog_pb2.GetAllProductsResponse:
@@ -54,7 +54,7 @@ class CatalogServiceImp():
 
 
     async def GetProductByName(self, request, context) -> catalog_pb2.GetProductByNameResponse:
-        product = await self.repo.get_product_by_name(product_name= request.product_nam, context=context)
+        product = await self.repo.get_product_by_name(product_name= request.product_name, context=context)
         product_struct = convert_from_Dict_to_Struct(product)
         return catalog_pb2.GetProductByNameResponse(data=product_struct)
 
@@ -82,6 +82,7 @@ class CatalogServiceImp():
     async def AddReview(self,request, context)->catalog_pb2.Okey:
         review = convert_add_review(request)
         await self.repo.add_review(request.review_id, review, context)
+        return catalog_pb2.Okey(success=True)
 
 
     

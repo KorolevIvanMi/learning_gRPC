@@ -7,7 +7,7 @@ from src.config.config import settings
 from src.utils.convert import from_listStruct_to_listDict, convert_from_Struct_to_Dict
 from src.application.dtos import ProductCreateDTO
 from src.utils.time import get_utc_now
-
+from google.protobuf.json_format import MessageToDict
 
 router = APIRouter(tags=["Catalog"])
 
@@ -55,7 +55,7 @@ async def get_product_by_id(product_id:str):
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-@router.post("/", response_model=ProductCreateDTO,  status_code= status.HTTP_201_CREATED,)
+@router.post("/",  status_code= status.HTTP_201_CREATED,)
 async def create_product(product_in:ProductCreateDTO):
     try:
         stub = grpc_client.get_stub()
@@ -63,9 +63,12 @@ async def create_product(product_in:ProductCreateDTO):
             await grpc_client.connect()
             stub = grpc_client.get_stub()
         product_dict = product_in.model_dump()
-
-        request = ParseDict(product_dict, catalog_pb2.CreateProductRequest())
+        
+        request = catalog_pb2.CreateProductRequest()
+        request = ParseDict(product_dict, request)
         response = await stub.CreateProduct(request)
-        return response
+        response_dict = MessageToDict(response)
+        
+        return response_dict 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

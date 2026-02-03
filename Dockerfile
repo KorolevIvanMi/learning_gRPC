@@ -22,16 +22,11 @@ RUN poetry install --no-root
 COPY . .
 
 # Генерируем protobuf файлы (важно сделать это в контейнере)
-RUN python -m grpc_tools.protoc \
-    -I./proto \
-    --python_out=./proto \
-    --grpc_python_out=./proto \
-    ./proto/catalog_service/catalog.proto
+RUN poetry run python -m grpc_tools.protoc -I proto/catalog_service --python_out=proto/catalog_service/generated  --grpc_python_out=proto/catalog_service/generated  --pyi_out=proto/catalog_service/generated  proto/catalog_service/catalog.proto
 
-# Исправляем импорты в сгенерированном файле
-RUN sed -i 's/import catalog_pb2 as catalog__pb2/from . import catalog_pb2 as catalog__pb2/' \
-    proto/catalog_service/generated/catalog_pb2_grpc.py
 
+RUN sed -i '6s/import catalog_pb2 as catalog__pb2/from . import catalog_pb2 as catalog__pb2/' \
+    /app/proto/catalog_service/generated/catalog_pb2_grpc.py
 # Открываем порты
 EXPOSE 8000   
 EXPOSE 50051  

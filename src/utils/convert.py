@@ -36,20 +36,14 @@ def convert_add_review(request):
 
 
 def convert_from_Struct_to_Dict(struct:Struct)->Dict:
-    data_dict = MessageToDict(struct)
-
-    return data_dict
+    return dict(struct)
 
 def convert_from_Dict_to_Struct(dict:Dict)->Struct:
-    data_struct = Struct()
-    ParseDict(dict, data_struct)
+    struct = Struct()
+    struct.update(dict)
+    return struct
 
-    return data_struct
 
 
 def from_listStruct_to_listDict(list:List[Struct])->List[Dict]:
-    list_of_Dict = []
-    for struct in list:
-        new_dict = MessageToDict(struct)
-        list_of_Dict.append(new_dict)
-    return list_of_Dict
+    return [dict(struct) for struct in list]
