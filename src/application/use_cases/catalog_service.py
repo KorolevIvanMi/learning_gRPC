@@ -9,7 +9,7 @@ from src.utils.convert import (
 
 from google.protobuf.struct_pb2 import Struct
 from typing import Dict
-
+from bson import ObjectId
 
 class CatalogServiceImp():
     def __init__(self):
@@ -62,7 +62,7 @@ class CatalogServiceImp():
     async def GetProductByID(self, request, context) -> catalog_pb2.GetProductByIDResponse:
         product = await self.repo.get_product_by_id(product_id=request.product_id, context=context)
         if product:
-            pruduct_reviews = await self.repo.get_reviews(product["reviews_id"], context=context)
+            pruduct_reviews = await self.repo.get_reviews(ObjectId(product["review_id"]), context=context)
             product_dict = product | pruduct_reviews
             product_struct = convert_from_Dict_to_Struct(product_dict)
 

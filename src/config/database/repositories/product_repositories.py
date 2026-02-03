@@ -16,11 +16,13 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
             product_data = product.model_dump() 
             product_data['review_id'] = review_id
             
-            await db_helper.database.products.insert_one(product_data)
+            
             await db_helper.database.reviews.insert_one({
-                "id": review_id,
+                "_id": review_id,
+                "collection_id": review_id,
                 "reviews": []
             })
+            await db_helper.database.products.insert_one(product_data)
 
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))
@@ -44,15 +46,16 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
                 reviews_to_del = deleted_product.get("review_id")
                 await db_helper.database.products.delete_one({"id": product_id})
                 if reviews_to_del:
-                    await db_helper.database.reviews.delete_one({"id": reviews_to_del})
+                    await db_helper.database.reviews.delete_one({"collection_id": reviews_to_del})
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))
 
 
-    async def get_reviews(self, reviews_id: ObjectId, context) -> ReviewDictDTO:
+    async def get_reviews(self, reviews_id: ObjectId, context) -> Dict:
         try:
-            result = await db_helper.database.reviews.find_one({"id": reviews_id})
-            return ReviewDictDTO(**result)
+            result = await db_helper.database.reviews.find_one({"collection_id": reviews_id},{"_id": 0}  )
+            result["collection_id"] = str(result["collection_id"])
+            return result
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))
 
@@ -61,7 +64,7 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
         try:
             cursor = db_helper.database.products.find(
             {}, 
-            {"_id": 0}  # оставляем review_id
+            {"_id": 0}  
             ).limit(limit)
         
             result = await cursor.to_list(length=limit)
@@ -78,7 +81,8 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
 
     async def get_product_by_name(self, product_name: str, context) -> Dict | None:
         try:
-            product = await db_helper.database.products.find_one({"name": product_name})
+            product = await db_helper.database.products.find_one({"name": product_name},{"_id": 0}  )
+            product["review_id"] = str(product["review_id"])
             return product
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))
@@ -86,7 +90,8 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
 
     async def get_product_by_id(self, product_id: str, context) -> Dict | None:
         try:
-            product = await db_helper.database.products.find_one({"id": product_id})
+            product = await db_helper.database.products.find_one({"id": product_id},{"_id": 0})
+            product["review_id"] = str(product["review_id"])
             return product
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))
@@ -104,7 +109,7 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
     async def add_review(self, review_id: ObjectId, review: ReviewDTO, context):
         try:
             await db_helper.database.reviews.update_one(
-                {"id": review_id},
+                {"collection_id": review_id},
                 {"$push": {"reviews": review}}
             )
         except Exception as e:

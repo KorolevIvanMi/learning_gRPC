@@ -39,9 +39,9 @@ def convert_from_Struct_to_Dict(struct:Struct)->Dict:
     return dict(struct)
 
 def convert_from_Dict_to_Struct(dict:Dict)->Struct:
-    struct = Struct()
-    struct.update(dict)
-    return struct
+    data_struct = Struct()
+    ParseDict(dict, data_struct)
+    return data_struct
 
 
 

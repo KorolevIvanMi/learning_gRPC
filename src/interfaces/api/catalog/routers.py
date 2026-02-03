@@ -34,31 +34,37 @@ async def get_products(limit: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/{product_name}/")
+@router.get("/name/{product_name}/")
 async def get_product_by_name(product_name:str):
     try:
         stub = grpc_client.get_stub()
         if not stub:
             await grpc_client.connect()
             stub = grpc_client.get_stub()
+        
         request = catalog_pb2.GetProductByNameRequest(product_name=product_name)
-        response = await stub.GetProductByName(request)
-        response = convert_from_Struct_to_Dict(response)
+        proto_response = await stub.GetProductByName(request)
+        response = MessageToDict(
+            proto_response,
+            preserving_proto_field_name=True,
+            use_integers_for_enums=True)
+        
         return response
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
 
-@router.get("/{product_id}/")
+@router.get("/id/{product_id}/")
 async def get_product_by_id(product_id:str):
     try:
         stub = grpc_client.get_stub()
         if not stub:
             await grpc_client.connect()
             stub = grpc_client.get_stub()
+        
         request = catalog_pb2.GetProductByIDRequest(product_id=product_id)
-        response = await stub.GetProductByID(request)
-        response = convert_from_Struct_to_Dict(response)
+        proto_response = await stub.GetProductByID(request)
+        response = MessageToDict(proto_response, preserving_proto_field_name=True)
         return response
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))

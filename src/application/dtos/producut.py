@@ -52,6 +52,8 @@ class ProductUpdateDTO(BaseModel):
     model_config = ConfigDict(
         arbitrary_types_allowed=True  
     )
+
+
 class ProductInDbDTO(ProductBaseDTO):
     review_id: PyObjectId
 
