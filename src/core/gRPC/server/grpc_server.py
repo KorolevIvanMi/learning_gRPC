@@ -18,7 +18,12 @@ class GRPCServer:
         await self.server.start()
         print(f"gRPC сервер запущен на порту {self.port}")
         return self
-
+    
+    async def serve_forever(self):
+            """Запуск и ожидание вечно (для использования в create_task)"""
+            if not self.server:
+                await self.start()
+            await self.server.wait_for_termination()
 
     async def stop(self):
         if self.server:

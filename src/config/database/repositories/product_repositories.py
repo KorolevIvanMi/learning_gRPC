@@ -2,10 +2,10 @@ import grpc
 from typing import List, Dict
 from bson import ObjectId
 
-from database.db_helper import db_helper
-from application.dtos import *
+from src.config.database.db_helper import db_helper
+from src.application.dtos import *
 from .iaproduct_repositories import IAMongoDBProductRepositiry
-from utils import get_utc_now
+from src.utils.time import get_utc_now
 
 
 class MongoDBProductRepositiry(IAMongoDBProductRepositiry):

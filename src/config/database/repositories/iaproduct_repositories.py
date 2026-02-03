@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List, Dict
 from bson import ObjectId 
 
-from application.dtos import *
+from src.application.dtos import *
 
 
 class IAMongoDBProductRepositiry(ABC):

@@ -1,18 +1,20 @@
 from proto import catalog_pb2
-from application.dtos import *
-from utils.time import get_utc_now
+
+
 
 from bson import ObjectId
 from google.protobuf.struct_pb2 import Struct
 from typing import Dict, List
 from google.protobuf.json_format import MessageToDict, ParseDict
 
-def convert_create_product(request)->ProductCreateDTO:
-    create_time = get_utc_now()
-    return ProductCreateDTO(id= request.id , name= request.name, description = request.description, price= request.price, category= request.category, create_time= create_time)
+def convert_create_product(request):
+    from src.application.dtos import ProductCreateDTO
+    
+    return ProductCreateDTO(id= request.id , name= request.name, description = request.description, price= request.price, category= request.category)
 
 
-def convert_update_product(request)->ProductUpdateDTO:
+def convert_update_product(request):
+    from src.application.dtos import  ProductUpdateDTO
     try:
         reviews_id= ObjectId(request.reviews_id)
     except:
@@ -21,7 +23,8 @@ def convert_update_product(request)->ProductUpdateDTO:
     return ProductUpdateDTO(id=request.product_id, name = request.name, description=request.description, price= request.price,category= request. category, reviews_id=reviews_id )
 
 
-def convert_add_review(request)->ReviewDTO:
+def convert_add_review(request):
+    from src.application.dtos import  ReviewDTO
     review_dict = {
         "id": request.id,
         "user_id": request.user_id,

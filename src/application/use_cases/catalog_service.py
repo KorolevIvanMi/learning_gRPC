@@ -1,9 +1,8 @@
 from proto import catalog_pb2
-from config import MongoDBProductRepositiry
-from utils import (
+from src.config.database.repositories.product_repositories import MongoDBProductRepositiry
+from src.utils.convert import (
     convert_create_product,
     convert_update_product,
-    convert_from_Struct_to_Dict, 
     convert_from_Dict_to_Struct, 
     convert_add_review
 )

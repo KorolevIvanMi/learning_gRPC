@@ -1,6 +1,6 @@
 from proto import catalog_pb2_grpc
 
-from application import CatalgoServiceImp
+from src.application import CatalgoServiceImp
 
 
 class CatalogServicer(catalog_pb2_grpc.CatologServicer):

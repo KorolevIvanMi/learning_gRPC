@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from core.gRPC.client.grpc_client import grpc_client
+from src.core.gRPC.client.grpc_client import grpc_client
 from proto import catalog_pb2
-from config.config import settings
-from src.utils import from_listStruct_to_listDict, convert_from_Struct_to_Dict
-from application.dtos import ProductCreateDTO
-from utils import get_utc_now
+from src.config.config import settings
+from src.utils.convert import from_listStruct_to_listDict, convert_from_Struct_to_Dict
+from src.application.dtos import ProductCreateDTO
+from src.utils.time import get_utc_now
 
 
 router = APIRouter(tags=["Catalog"])

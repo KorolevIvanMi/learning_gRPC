@@ -1,1 +1,1 @@
-from use_cases.auth_service import CatalgoServiceImp
+from .use_cases.catalog_service import CatalgoServiceImp

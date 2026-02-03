@@ -1,12 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,  ConfigDict
 from typing import Optional
 from datetime import datetime
 from bson import ObjectId 
 from typing import Dict,List
-from utils.time import get_utc_now
+from src.utils.time import get_utc_now
 
 
 class ProductBaseDTO(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     id: str
     name: str
     description: Dict
@@ -20,6 +21,7 @@ class ProductCreateDTO(ProductBaseDTO):
 
 
 class ProductUpdateDTO(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     id: str
     name: Optional[str] = None
     description: Optional[Dict] = {}
