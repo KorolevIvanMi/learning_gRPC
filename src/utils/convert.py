@@ -15,24 +15,17 @@ def convert_create_product(request):
 
 def convert_update_product(request):
     from src.application.dtos import  ProductUpdateDTO
-    try:
-        reviews_id= ObjectId(request.reviews_id)
-    except:
-        reviews_id = ObjectId()
+    # try:
+    #     reviews_id= ObjectId(request.reviews_id)
+    # except:
+    #     reviews_id = ObjectId()
 
-    return ProductUpdateDTO(id=request.product_id, name = request.name, description=request.description, price= request.price,category= request. category, reviews_id=reviews_id )
+    return ProductUpdateDTO(product_id=request.product_id, name = request.name, description=request.description, price= request.price,category= request.category, reviews_id=request.reviews_id )
 
 
 def convert_add_review(request):
     from src.application.dtos import  ReviewDTO
-    review_dict = {
-        "id": request.id,
-        "user_id": request.user_id,
-        "rating": request.rating,
-        "text": request.text
-    }
-
-    return ReviewDTO(**review_dict)
+    return ReviewDTO(id=request.id, user_id=request.user_id, rating=request.rating, text=request.text)
 
 
 def convert_from_Struct_to_Dict(struct:Struct)->Dict:

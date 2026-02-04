@@ -5,7 +5,7 @@ from src.core.gRPC.client.grpc_client import grpc_client
 from proto import catalog_pb2
 from src.config.config import settings
 from src.utils.convert import from_listStruct_to_listDict, convert_from_Struct_to_Dict
-from src.application.dtos import ProductCreateDTO
+from src.application.dtos import ProductCreateDTO, ProductUpdateDTO, ReviewDTO
 from src.utils.time import get_utc_now
 from google.protobuf.json_format import MessageToDict
 
@@ -32,6 +32,20 @@ async def get_products(limit: int):
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/category/{product_category}")
+async def get_product_by_category(product_category:str):
+    try:
+        stub = grpc_client.get_stub()
+        if not stub:
+            await grpc_client.connect()
+            stub = grpc_client.get_stub()
+        request = catalog_pb2.GetProductByCategoryRequest(product_category=product_category)
+        proto_response = await stub.GetProductByCategory(request)
+        response = MessageToDict(proto_response, preserving_proto_field_name=True )
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 @router.get("/name/{product_name}/")
@@ -70,21 +84,9 @@ async def get_product_by_id(product_id:str):
         raise HTTPException(status_code=404, detail=str(e))
 
 
-@router.get("/category/{product_category}")
-async def get_product_by_category(product_category:str):
-    try:
-        stub = grpc_client.get_stub()
-        if not stub:
-            await grpc_client.connect()
-            stub = grpc_client.get_stub()
-        request = catalog_pb2.GetProductByCategoryRequest(product_category=product_category)
-        proto_response = await stub.GetProductByCategory(request)
-        response = MessageToDict(proto_response, preserving_proto_field_name=True )
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=404, detail=str(e))
 
-@router.post("/",  status_code= status.HTTP_201_CREATED,)
+
+@router.post("/create/",  status_code= status.HTTP_201_CREATED,)
 async def create_product(product_in:ProductCreateDTO):
     try:
         stub = grpc_client.get_stub()
@@ -99,6 +101,60 @@ async def create_product(product_in:ProductCreateDTO):
         response_dict = MessageToDict(response)
         
         return response_dict 
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.put("/{review_id}/")
+async def add_review(review_id, review:ReviewDTO):
+    try:
+        stub = grpc_client.get_stub()
+        if not stub:
+            await grpc_client.connect()
+            stub = grpc_client.get_stub()
+
+
+        review_dict = review.model_dump()
+
+        request = catalog_pb2.AddReviewRequest(review_id=review_id )
+        ParseDict(review_dict, request)
+        response = await stub.AddReview(request)
+        response_dict = MessageToDict(response)
+
+        return response_dict
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.put("/edit/{product_id}")
+async def edit_product(product_id:str, product_update: ProductUpdateDTO ):
+    try:
+        stub = grpc_client.get_stub()
+        if not stub:
+            await grpc_client.connect()
+            stub = grpc_client.get_stub()
+        product_dict = product_update.model_dump()
+
+        request = catalog_pb2.UpdateProductRequest(product_id=product_id)
+        ParseDict(product_dict, request)
+        response = await stub.UpdateProduct(request)
+        response_dict = MessageToDict(response)
+
+        return response_dict
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.delete("/{product_id}/")
+async def delete_product(product_id:str):
+    try:
+        stub = grpc_client.get_stub()
+
+        request = catalog_pb2.DeleteProductRequest(product_id=product_id)
+        response = await stub.DeleteProduct(request)
+        response_dict = MessageToDict(response)
+        return response_dict
+    
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

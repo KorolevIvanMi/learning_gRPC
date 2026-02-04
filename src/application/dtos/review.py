@@ -29,7 +29,7 @@ class ReviewDTO(BaseModel):
 
 class ReviewDictDTO(BaseModel):
     id: PyObjectId 
-    reviews: List[ReviewDTO] = []
+    reviews: List = []
     model_config = ConfigDict(
         arbitrary_types_allowed=True  
     )

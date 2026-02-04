@@ -54,7 +54,7 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
 
     async def get_reviews(self, reviews_id: ObjectId, context) -> Dict:
         try:
-            result = await db_helper.database.reviews.find_one({"collection_id": reviews_id},{"_id": 0}  )
+            result = await db_helper.database.reviews.find_one({"collection_id": reviews_id},{"_id": 0})
             result["collection_id"] = str(result["collection_id"])
             return result
         except Exception as e:
@@ -82,7 +82,7 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
 
     async def get_product_by_name(self, product_name: str, context) -> Dict | None:
         try:
-            product = await db_helper.database.products.find_one({"name": product_name},{"_id": 0}  )
+            product = await db_helper.database.products.find_one({"name": product_name},{"_id": 0})
             product["review_id"] = str(product["review_id"])
             return product
         except Exception as e:
@@ -100,7 +100,7 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
 
     async def get_product_by_category(self, product_category: str, context):
         try:
-            cursor = db_helper.database.products.find({"category": product_category}, {"_id": 0} )
+            cursor = db_helper.database.products.find({"category": product_category}, {"_id": 0})
 
             products = await cursor.to_list(length=None)
             for product in products:
@@ -111,11 +111,12 @@ class MongoDBProductRepositiry(IAMongoDBProductRepositiry):
             await context.abort(grpc.StatusCode.INTERNAL, str(e))
 
 
-    async def add_review(self, review_id: ObjectId, review: ReviewDTO, context):
+    async def add_review(self, review_id: ObjectId, review:ReviewDTO, context):
         try:
             await db_helper.database.reviews.update_one(
                 {"collection_id": review_id},
                 {"$push": {"reviews": review}}
             )
+            
         except Exception as e:
             await context.abort(grpc.StatusCode.INTERNAL, str(e))

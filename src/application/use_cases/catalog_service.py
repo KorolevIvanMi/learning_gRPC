@@ -81,7 +81,8 @@ class CatalogServiceImp():
 
     async def AddReview(self,request, context)->catalog_pb2.Okey:
         review = convert_add_review(request)
-        await self.repo.add_review(request.review_id, review, context)
+        review = review.model_dump()
+        await self.repo.add_review(ObjectId(request.review_id), review, context)
         return catalog_pb2.Okey(success=True)
 
 

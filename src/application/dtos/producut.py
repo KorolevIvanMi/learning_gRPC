@@ -41,8 +41,7 @@ class ProductCreateDTO(ProductBaseDTO):
 
 
 class ProductUpdateDTO(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-    id: str
+    product_id: str 
     name: Optional[str] = None
     description: Optional[Dict] = {}
     price: Optional[int] = 0

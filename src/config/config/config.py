@@ -8,7 +8,7 @@ class Settings(BaseSettings):
 
     app_name:str = "gRPC_fastapi_app"
 
-    app_prefix:str = "/grpc_dastapi"
+    app_prefix:str = "/grpc_fastapi"
 
     mongo_user:str = os.getenv("MONGODB_USER_LOGIN")
     mongo_password:str = os.getenv("MONGODB_USER_PASSWORD")
