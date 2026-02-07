@@ -19,6 +19,7 @@ python-dotenv = ">=1.2.1,<2.0.0"
 grpcio = ">=1.76.3,<2.0.0"
 grpcio-tools = ">=1.76.3,<2.0.0"
 protobuf = "^6.33.5"
+pytest = "^9.0.2"
 
 
 
